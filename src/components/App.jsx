@@ -1,12 +1,17 @@
 import React, { Component } from "react";
-import Expresso from "./Expresso/Expresso";
+// import Toggle from "./Toggle/Toggle";
+// import Expresso from "./Expresso/Expresso";
+import Contacts from "./Contacts/Contacts";
+import './../index'
 
 class App extends Component {
   render() {
     return (
-    <>
-    <Expresso />
-        
+      <><div className="wrapper">
+        {/* <Toggle/> */}
+        {/* <Expresso /> */}
+        <Contacts/>
+        </div>
     </>)
   
   }
