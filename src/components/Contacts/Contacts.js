@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { nanoid } from 'nanoid';
 import ContactForm from './ContactForm/ContactForm';
 import Phonebook from './Phonebook/Phonebook';
 
@@ -22,14 +23,24 @@ class Contacts extends Component {
   };
 
   reset = () => {
-    this.setState({ name: '' });
+    this.setState({ name: '', number: '' });
   };
 
   handlerSubmit = event => {
     event.preventDefault();
-    const what = event.currentTarget;
-    // this.onSubmit(this.state);
-    console.log(what);
+
+    const { name, number } = event.currentTarget.elements;
+    console.log(name.value);
+    console.log(number.value);
+
+    // const { name } = this.state;
+    // console.log('State name:', name);
+    // this.setState(prevState + newState);
+
+    // const formData = new FormData(event.target);
+    // const name = formData.get('name');
+    // console.log('Name:', name);
+
     this.reset();
   };
 
