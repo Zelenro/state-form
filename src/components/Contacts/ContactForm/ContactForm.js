@@ -18,7 +18,7 @@ const ContactForm = ({
         />
       </label>
       <label>
-        Name
+        Number
         <input
           type="text"
           name="number"

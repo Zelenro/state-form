@@ -26,23 +26,36 @@ class Contacts extends Component {
     this.setState({ name: '', number: '' });
   };
 
+  addContacts = (name, number) => {
+    const newContact = {
+      id: nanoid(),
+      name: name,
+      number: number,
+    };
+
+    this.setState(state => ({
+      contacts: [...state.contacts, newContact],
+    }));
+  };
+
   handlerSubmit = event => {
     event.preventDefault();
-
-    const { name, number } = event.currentTarget.elements;
-    console.log(name.value);
-    console.log(number.value);
-
-    // const { name } = this.state;
-    // console.log('State name:', name);
-    // this.setState(prevState + newState);
-
-    // const formData = new FormData(event.target);
-    // const name = formData.get('name');
-    // console.log('Name:', name);
-
+    const { name, number } = this.state;
+    if (!name || !number) {
+      console.log('No name or number');
+      return;
+    }
+    this.addContacts(name, number);
     this.reset();
   };
+
+  // filterContacts = event => {
+  //   const { name, value } = event.currentTarget;
+  //   this.setState({ [name]: value });
+  //   const contacts = this.state.contacts;
+  //   console.log(contacts);
+  // return value;
+  // };
 
   render() {
     return (
@@ -53,7 +66,10 @@ class Contacts extends Component {
           handlerInput={this.handlerInput}
           handlerSubmit={this.handlerSubmit}
         />
-        <Phonebook value={this.value} />
+        <Phonebook
+          contacts={this.state.contacts}
+          // filterContacts={this.filterContacts}
+        />
       </>
     );
   }

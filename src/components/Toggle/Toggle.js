@@ -6,11 +6,11 @@ class Toggle extends Component {
   render() {
     return (
       <>
-        {/* <label class="rocker rocker-small">
+        <label class="rocker rocker-small">
           <input type="checkbox" />
           <span class="switch-left"></span>
           <span class="switch-right"></span>
-        </label> */}
+        </label>
 
         {/* <Rocker class="rocker rocker-small">
           <Input type="checkbox" />
