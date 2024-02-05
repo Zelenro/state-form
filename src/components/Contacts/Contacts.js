@@ -49,26 +49,32 @@ class Contacts extends Component {
     this.reset();
   };
 
-  // filterContacts = event => {
-  //   const { name, value } = event.currentTarget;
-  //   this.setState({ [name]: value });
-  //   const contacts = this.state.contacts;
-  //   console.log(contacts);
-  // return value;
-  // };
+  listContacts = event => {
+    const value = this.handlerInput(event);
+    const findContact = this.state.contacts.filter(contact =>
+      contact.name.toUpperCase().includes(value.toUpperCase())
+    );
+    return findContact;
+  };
+
+  filterContacts = event => {
+    const findContact = this.listContacts(event);
+    this.setState({ findContact });
+  };
 
   render() {
     return (
       <>
-        <h1>Phone book</h1>
+        <h1>Phonebook</h1>
         <ContactForm
           state={this.state}
           handlerInput={this.handlerInput}
           handlerSubmit={this.handlerSubmit}
         />
         <Phonebook
-          contacts={this.state.contacts}
-          // filterContacts={this.filterContacts}
+          state={this.state}
+          filterContacts={this.filterContacts}
+          findContact={this.findContact}
         />
       </>
     );

@@ -1,37 +1,42 @@
 import styled from 'styled-components';
 
 export const ContactsList = styled.div`
-  max-width: 500px;
-  // margin: 0 auto;
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 0px;
 `;
+
 export const ContactList = styled.ul`
+  list-style: none;
   padding: 0;
-  margin: 0;
 `;
 
 export const ContactItem = styled.li`
   display: flex;
   justify-content: space-between;
   align-items: center;
+  border: 1px solid #ccc;
   padding: 10px;
   margin-bottom: 10px;
-  border: 1px solid #ccc;
-  border-radius: 5px;
+  background-color: #fff;
 
-  &:last-child {
-    margin-bottom: 0;
+  @media screen and (max-width: 600px) {
+    flex-direction: column;
+    text-align: center;
   }
+`;
 
-  button {
-    background-color: #dc3545;
-    color: #fff;
-    border: none;
-    padding: 5px 10px;
-    cursor: pointer;
-    transition: background-color 0.3s;
+export const FormButton = styled.button`
+  width: 80px;
+  padding: 10px;
+  margin-left: auto;
+  background-color: #009688;
+  color: #fff;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.3s ease-in-out;
 
-    &:hover {
-      background-color: #c82333;
-    }
+  &:hover {
+    background-color: #00796b;
   }
 `;
