@@ -65,12 +65,10 @@ class Contacts extends Component {
       return;
     }
     const findContact = this.findContactInState(name);
-
     if (findContact.length > 0) {
       alert(`${findContact[0].name} is already in contacts`);
       return;
     }
-
     this.addContacts(name, number);
     this.reset();
   };
