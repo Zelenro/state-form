@@ -1,15 +1,9 @@
 import React from 'react';
-import {
-  ContactItem,
-  ContactList,
-  ContactsList,
-  FormButton,
-} from './Phonebook.styled';
 
-const Phonebook = ({ state: { findContact }, filterContacts }) => {
+const Filter = ({ state: { findContact }, filterContacts }) => {
   return (
     <ContactsList>
-      <h3>My contacts</h3>
+      <h3>Filter</h3>
       <label>
         Find contact
         <input

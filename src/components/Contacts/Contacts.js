@@ -32,10 +32,29 @@ class Contacts extends Component {
       name: name,
       number: number,
     };
-
     this.setState(state => ({
       contacts: [...state.contacts, newContact],
     }));
+  };
+
+  findContactInState = name => {
+    const escapedValue = name.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+    const regex = new RegExp(`\\b${escapedValue}`, 'i');
+    return this.state.contacts.filter(contact => regex.test(contact.name));
+  };
+
+  filterContacts = event => {
+    const findContact = this.listContacts(event);
+    this.setState({ findContact });
+  };
+
+  listContacts = event => {
+    const name = this.handlerInput(event);
+    const findContact = this.findContactInState(name);
+    if (!findContact) {
+      return;
+    }
+    return findContact;
   };
 
   handlerSubmit = event => {
@@ -45,21 +64,15 @@ class Contacts extends Component {
       console.log('No name or number');
       return;
     }
+    const findContact = this.findContactInState(name);
+
+    if (findContact.length > 0) {
+      alert(`${findContact[0].name} is already in contacts`);
+      return;
+    }
+
     this.addContacts(name, number);
     this.reset();
-  };
-
-  listContacts = event => {
-    const value = this.handlerInput(event);
-    const findContact = this.state.contacts.filter(contact =>
-      contact.name.toUpperCase().includes(value.toUpperCase())
-    );
-    return findContact;
-  };
-
-  filterContacts = event => {
-    const findContact = this.listContacts(event);
-    this.setState({ findContact });
   };
 
   render() {
@@ -74,7 +87,7 @@ class Contacts extends Component {
         <Phonebook
           state={this.state}
           filterContacts={this.filterContacts}
-          findContact={this.findContact}
+          findContact={this.findContactInState}
         />
       </>
     );

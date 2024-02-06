@@ -23,7 +23,7 @@ const Phonebook = ({
         />
       </label>
       <ContactList>
-        {findContact && findContact.length > 0
+        {findContact
           ? findContact.map(contact => (
               <ContactItem key={contact.id}>
                 <span>{contact.name}</span>
