@@ -7,8 +7,10 @@ import {
 } from './Phonebook.styled';
 
 const Phonebook = ({
-  state: { contacts, filter, findContact },
+  state: { contacts, filter },
+  deleteContact,
   filterContacts,
+  arrayFilterContact,
 }) => {
   return (
     <ContactsList>
@@ -23,19 +25,33 @@ const Phonebook = ({
         />
       </label>
       <ContactList>
-        {findContact
-          ? findContact.map(contact => (
+        {arrayFilterContact
+          ? arrayFilterContact.map(contact => (
               <ContactItem key={contact.id}>
                 <span>{contact.name}</span>
                 <span>{contact.number}</span>
-                <FormButton type="submit">Delete contact</FormButton>
+                <FormButton
+                  type="button"
+                  name="delete"
+                  value={contact.id}
+                  onClick={deleteContact}
+                >
+                  Delete contact
+                </FormButton>
               </ContactItem>
             ))
           : contacts.map(contact => (
               <ContactItem key={contact.id}>
                 <span>{contact.name}</span>
                 <span>{contact.number}</span>
-                <FormButton type="submit">Delete contact</FormButton>
+                <FormButton
+                  type="button"
+                  name="delete"
+                  value={contact.id}
+                  onClick={deleteContact}
+                >
+                  Delete contact
+                </FormButton>
               </ContactItem>
             ))}
       </ContactList>

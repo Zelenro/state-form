@@ -12,8 +12,6 @@ class Contacts extends Component {
       { id: 'id-4', name: 'Annie Copeland', number: '227-91-26' },
     ],
     filter: '',
-    name: '',
-    number: '',
   };
 
   handlerInput = event => {
@@ -37,34 +35,37 @@ class Contacts extends Component {
     }));
   };
 
-  findContactInState = name => {
+  filteringContactsBeforeAdding = name => {
+    const escapedValue = name.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+    const regex = new RegExp(`\\b${escapedValue}\\b`, 'i');
+    return this.state.contacts.filter(contact => regex.test(contact.name));
+  };
+
+  searchForContacts = name => {
     const escapedValue = name.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
     const regex = new RegExp(`\\b${escapedValue}`, 'i');
     return this.state.contacts.filter(contact => regex.test(contact.name));
   };
 
   filterContacts = event => {
-    const findContact = this.listContacts(event);
-    this.setState({ findContact });
-  };
-
-  listContacts = event => {
     const name = this.handlerInput(event);
-    const findContact = this.findContactInState(name);
-    if (!findContact) {
+    const arrayFilterContact = this.searchForContacts(name);
+    if (arrayFilterContact.length > 1) {
       return;
     }
-    return findContact;
+    return arrayFilterContact;
   };
 
   handlerSubmit = event => {
     event.preventDefault();
-    const { name, number } = this.state;
+    const name = event.currentTarget.elements.name.value;
+    const number = event.currentTarget.elements.number.value;
     if (!name || !number) {
       console.log('No name or number');
       return;
     }
-    const findContact = this.findContactInState(name);
+    const findContact = this.filteringContactsBeforeAdding(name);
+
     if (findContact.length > 0) {
       alert(`${findContact[0].name} is already in contacts`);
       return;
@@ -73,19 +74,28 @@ class Contacts extends Component {
     this.reset();
   };
 
+  deleteContact = event => {
+    const contactId = event.currentTarget.value;
+    this.setState(prevState => ({
+      contacts: prevState.contacts.filter(contact => contact.id !== contactId),
+    }));
+  };
+
   render() {
     return (
       <>
         <h1>Phonebook</h1>
         <ContactForm
-          state={this.state}
+          name={this.state.name}
+          number={this.state.number}
           handlerInput={this.handlerInput}
           handlerSubmit={this.handlerSubmit}
         />
         <Phonebook
           state={this.state}
           filterContacts={this.filterContacts}
-          findContact={this.findContactInState}
+          arrayFilterContact={this.searchForContacts(this.state.filter)}
+          deleteContact={this.deleteContact}
         />
       </>
     );

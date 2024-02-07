@@ -1,26 +1,29 @@
-import React, { Component } from 'react';
+import React from 'react';
 import {
   FormButton,
   FormContainer,
   FormInput,
   FormLabel,
 } from './ContactForm.styled';
+import { Formik } from 'formik';
 
-class ContactForm extends Component {
-  state = { name: '', number: '' };
-
-  render() {
-    const { handlerInput, handlerSubmit } = this.props;
-    return (
-      <>
+const ContactForm = ({
+  name = '',
+  number = '',
+  handlerInput,
+  handlerSubmit,
+}) => {
+  return (
+    <>
+      <Formik onSubmit={handlerSubmit}>
         <FormContainer>
-          <form onSubmit={handlerSubmit}>
+          <form autoComplete="off" onSubmit={handlerSubmit}>
             <FormLabel>
               Name
               <FormInput
                 type="text"
                 name="name"
-                value={this.state.name}
+                value={name}
                 onChange={handlerInput}
                 required
               />
@@ -30,7 +33,7 @@ class ContactForm extends Component {
               <FormInput
                 type="text"
                 name="number"
-                value={this.state.number}
+                value={number}
                 onChange={handlerInput}
                 required
               />
@@ -39,9 +42,9 @@ class ContactForm extends Component {
             <FormButton type="submit">Add contact</FormButton>
           </form>
         </FormContainer>
-      </>
-    );
-  }
-}
+      </Formik>
+    </>
+  );
+};
 
 export default ContactForm;
