@@ -8,14 +8,16 @@ import {
 import { Formik } from 'formik';
 
 const ContactForm = ({
-  name = '',
-  number = '',
+  name = '3',
+  number = '5',
   handlerInput,
   handlerSubmit,
 }) => {
+  const initialValues = { name, number };
+  console.log({ initialValues });
   return (
     <>
-      <Formik onSubmit={handlerSubmit}>
+      <Formik initialValues={{ initialValues }}>
         <FormContainer>
           <form autoComplete="off" onSubmit={handlerSubmit}>
             <FormLabel>

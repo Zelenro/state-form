@@ -14,8 +14,9 @@ class Contacts extends Component {
     filter: '',
   };
 
-  handlerInput = event => {
-    const { name, value } = event.currentTarget;
+  handlerInput = e => {
+    const { name, value } = e.currentTarget;
+    console.log([name], value);
     this.setState({ [name]: value });
     return value;
   };
@@ -47,8 +48,8 @@ class Contacts extends Component {
     return this.state.contacts.filter(contact => regex.test(contact.name));
   };
 
-  filterContacts = event => {
-    const name = this.handlerInput(event);
+  filterContacts = e => {
+    const name = this.handlerInput(e);
     const arrayFilterContact = this.searchForContacts(name);
     if (arrayFilterContact.length > 1) {
       return;
@@ -56,10 +57,10 @@ class Contacts extends Component {
     return arrayFilterContact;
   };
 
-  handlerSubmit = event => {
-    event.preventDefault();
-    const name = event.currentTarget.elements.name.value;
-    const number = event.currentTarget.elements.number.value;
+  handlerSubmit = e => {
+    e.preventDefault();
+    const name = e.currentTarget.elements.name.value;
+    const number = e.currentTarget.elements.number.value;
     if (!name || !number) {
       console.log('No name or number');
       return;
@@ -74,8 +75,8 @@ class Contacts extends Component {
     this.reset();
   };
 
-  deleteContact = event => {
-    const contactId = event.currentTarget.value;
+  deleteContact = e => {
+    const contactId = e.currentTarget.value;
     this.setState(prevState => ({
       contacts: prevState.contacts.filter(contact => contact.id !== contactId),
     }));
