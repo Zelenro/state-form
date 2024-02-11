@@ -1,7 +1,9 @@
 import React, { Component } from 'react';
 import { nanoid } from 'nanoid';
+
 import ContactForm from './ContactForm/ContactForm';
 import Phonebook from './Phonebook/Phonebook';
+import Filter from './Filter/Filter';
 
 class Contacts extends Component {
   state = {
@@ -16,13 +18,11 @@ class Contacts extends Component {
 
   handlerInput = e => {
     const { name, value } = e.currentTarget;
-    console.log([name], value);
-    this.setState({ [name]: value });
+    this.setState(prevState => ({
+      ...prevState,
+      [name]: value,
+    }));
     return value;
-  };
-
-  reset = () => {
-    this.setState({ name: '', number: '' });
   };
 
   addContacts = (name, number) => {
@@ -31,8 +31,8 @@ class Contacts extends Component {
       name: name,
       number: number,
     };
-    this.setState(state => ({
-      contacts: [...state.contacts, newContact],
+    this.setState(prevState => ({
+      contacts: [...prevState.contacts, newContact],
     }));
   };
 
@@ -57,24 +57,6 @@ class Contacts extends Component {
     return arrayFilterContact;
   };
 
-  handlerSubmit = e => {
-    e.preventDefault();
-    const name = e.currentTarget.elements.name.value;
-    const number = e.currentTarget.elements.number.value;
-    if (!name || !number) {
-      console.log('No name or number');
-      return;
-    }
-    const findContact = this.filteringContactsBeforeAdding(name);
-
-    if (findContact.length > 0) {
-      alert(`${findContact[0].name} is already in contacts`);
-      return;
-    }
-    this.addContacts(name, number);
-    this.reset();
-  };
-
   deleteContact = e => {
     const contactId = e.currentTarget.value;
     this.setState(prevState => ({
@@ -82,19 +64,25 @@ class Contacts extends Component {
     }));
   };
 
+  handlerSubmit = (value, { resetForm }) => {
+    const { name, number } = value;
+    const findContact = this.filteringContactsBeforeAdding(name);
+    if (findContact.length > 0) {
+      alert(`${findContact[0].name} is already in contacts`);
+      return;
+    }
+    this.addContacts(name, number);
+    resetForm();
+  };
+
   render() {
     return (
       <>
         <h1>Phonebook</h1>
-        <ContactForm
-          name={this.state.name}
-          number={this.state.number}
-          handlerInput={this.handlerInput}
-          handlerSubmit={this.handlerSubmit}
-        />
+        <ContactForm handlerSubmit={this.handlerSubmit} />
+        <Filter state={this.state} filterContacts={this.filterContacts} />
         <Phonebook
           state={this.state}
-          filterContacts={this.filterContacts}
           arrayFilterContact={this.searchForContacts(this.state.filter)}
           deleteContact={this.deleteContact}
         />

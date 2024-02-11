@@ -1,50 +1,52 @@
 import React from 'react';
+import { Formik, Form } from 'formik';
+
 import {
   FormButton,
   FormContainer,
   FormInput,
   FormLabel,
 } from './ContactForm.styled';
-import { Formik } from 'formik';
 
-const ContactForm = ({
-  name = '3',
-  number = '5',
-  handlerInput,
-  handlerSubmit,
-}) => {
-  const initialValues = { name, number };
-  console.log({ initialValues });
+import { initialValues, validationSchema } from './ContactFormSchema';
+import { FormError } from './ContactFormError';
+
+const ContactForm = ({ handlerSubmit }) => {
   return (
     <>
-      <Formik initialValues={{ initialValues }}>
-        <FormContainer>
-          <form autoComplete="off" onSubmit={handlerSubmit}>
-            <FormLabel>
+      <FormContainer>
+        <Formik
+          initialValues={initialValues}
+          validationSchema={validationSchema}
+          onSubmit={handlerSubmit}
+        >
+          <Form autoComplete="off">
+            <FormLabel htmlFor="name">
               Name
               <FormInput
                 type="text"
+                id="name"
                 name="name"
-                value={name}
-                onChange={handlerInput}
+                placeholder="Name"
                 required
               />
+              <FormError name="name" />
             </FormLabel>
-            <FormLabel>
+            <FormLabel htmlFor="number">
               Number
               <FormInput
                 type="text"
+                id="number"
                 name="number"
-                value={number}
-                onChange={handlerInput}
+                placeholder="Number"
                 required
               />
+              <FormError name="number" />
             </FormLabel>
-
             <FormButton type="submit">Add contact</FormButton>
-          </form>
-        </FormContainer>
-      </Formik>
+          </Form>
+        </Formik>
+      </FormContainer>
     </>
   );
 };

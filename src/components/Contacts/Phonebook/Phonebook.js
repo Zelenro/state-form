@@ -7,23 +7,18 @@ import {
 } from './Phonebook.styled';
 
 const Phonebook = ({
-  state: { contacts, filter },
+  state: {
+    contacts,
+    // filter
+  },
   deleteContact,
-  filterContacts,
+  // filterContacts,
   arrayFilterContact,
 }) => {
   return (
     <ContactsList>
       <h3>My contacts</h3>
-      <label>
-        Find contact
-        <input
-          type="text"
-          name="filter"
-          value={filter}
-          onChange={filterContacts}
-        />
-      </label>
+
       <ContactList>
         {arrayFilterContact
           ? arrayFilterContact.map(contact => (

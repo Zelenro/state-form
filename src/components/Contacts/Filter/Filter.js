@@ -1,6 +1,7 @@
 import React from 'react';
+import { ContactsList } from '../Phonebook/Phonebook.styled';
 
-const Filter = ({ state: { findContact }, filterContacts }) => {
+const Filter = ({ state: { filter }, filterContacts }) => {
   return (
     <ContactsList>
       <h3>Filter</h3>
@@ -13,17 +14,8 @@ const Filter = ({ state: { findContact }, filterContacts }) => {
           onChange={filterContacts}
         />
       </label>
-      <ContactList>
-        findContact.map(contact => (
-        <ContactItem key={contact.id}>
-          <span>{contact.name}</span>
-          <span>{contact.number}</span>
-          <FormButton type="submit">Delete contact</FormButton>
-        </ContactItem>
-        ))
-      </ContactList>
     </ContactsList>
   );
 };
 
-export default Phonebook;
+export default Filter;
