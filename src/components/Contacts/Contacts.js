@@ -76,6 +76,7 @@ class Contacts extends Component {
   };
 
   render() {
+    // console.log(`Re render ${Date.now()}`);
     return (
       <>
         <h1>Phonebook</h1>

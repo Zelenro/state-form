@@ -1,25 +1,42 @@
-import React, { Component } from 'react';
+import React from 'react';
 // import { Input, Rocker, SwitchLeft, SwitchRight } from './Toggle.styled';
 import './toggle.css';
+import { IoIosContacts } from 'react-icons/io';
+import { SiCoffeescript } from 'react-icons/si';
+import { MdOutlineContactPhone } from 'react-icons/md';
 
-class Toggle extends Component {
-  render() {
-    return (
-      <>
-        <label class="rocker rocker-small">
+const Toggle = ({ onClick }) => {
+  const handleClick = e => {
+    e.stopPropagation(); // Предотвращаем всплытие события
+    onClick(); // Вызываем функцию обратного вызова из пропсов
+  };
+
+  return (
+    <>
+      {/* <div className="mid">
+        <label className="rocker">
           <input type="checkbox" />
-          <span class="switch-left"></span>
-          <span class="switch-right"></span>
+          <span className="switch-left" onClick={handleClick}>
+            <IoIosContacts />
+          </span>
+          <span className="switch-right" onClick={handleClick}>
+            <SiCoffeescript />
+          </span>
         </label>
-
-        {/* <Rocker class="rocker rocker-small">
-          <Input type="checkbox" />
-          <SwitchLeft class="switch-left"></SwitchLeft>
-          <SwitchRight class="switch-right"></SwitchRight>
-        </Rocker> */}
-      </>
-    );
-  }
-}
+      </div> */}
+      <div className="mid">
+        <label className="rocker rocker-small">
+          <input type="checkbox" />
+          <span className="switch-left" onClick={handleClick}>
+            <MdOutlineContactPhone />
+          </span>
+          <span className="switch-right" onClick={handleClick}>
+            <SiCoffeescript />
+          </span>
+        </label>
+      </div>
+    </>
+  );
+};
 
 export default Toggle;

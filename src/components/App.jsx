@@ -1,16 +1,31 @@
 import React, { Component } from "react";
-// import Toggle from "./Toggle/Toggle";
-// import Expresso from "./Expresso/Expresso";
+import Toggle from "./Toggle/Toggle";
+import Expresso from "./Expresso/Expresso";
 import Contacts from "./Contacts/Contacts";
 import './../index'
 
 class App extends Component {
+state = {
+    toggleSwitcher: true  
+  };
+  
+
+  toggleComponent = () => {
+      this.setState(prevState => ({
+      toggleSwitcher: !prevState.toggleSwitcher 
+    }));
+  };
+
   render() {
+    const { toggleSwitcher } = this.state;   
     return (
-      <><div className="wrapper">
-        {/* <Toggle/> */}
-        {/* <Expresso /> */}
-        <Contacts/>
+      <>
+        <Toggle  onClick={this.toggleComponent } />
+        <div className="wrapper">
+          {
+          toggleSwitcher ? <Expresso /> : <Contacts />
+          }
+        
         </div>
     </>)
   

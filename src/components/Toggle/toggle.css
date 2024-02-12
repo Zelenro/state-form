@@ -1,3 +1,20 @@
+html {
+  box-sizing: border-box;
+  font-family: 'Arial', sans-serif;
+  font-size: 100%;
+}
+*, *:before, *:after {
+  box-sizing: inherit;
+  margin:0;
+  padding:0;
+}
+.mid {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding-top:1em;
+}
+
 
 /* Switch starts here */
 .rocker {
@@ -23,8 +40,7 @@
 }
 
 .rocker-small {
-  font-size: 0.75em;
- /* Sizes the switch */
+  font-size: 0.75em; /* Sizes the switch */
   margin: 1em;
 }
 
@@ -48,6 +64,7 @@
 
 .switch-left,
 .switch-right {
+  
   cursor: pointer;
   position: absolute;
   display: flex;
@@ -56,7 +73,6 @@
   height: 2.5em;
   width: 3em;
   transition: 0.2s;
-  user-select: none;
 }
 
 .switch-left {
@@ -66,13 +82,14 @@
   bottom: 0.4em;
   background-color: #ddd;
   transform: rotate(15deg) skewX(15deg);
+ 
 }
 
 .switch-right {
   right: 0.5em;
   bottom: 0;
   background-color: #bd5757;
-  color: #fff;
+  color: #fff;  
 }
 
 .switch-left::before,
