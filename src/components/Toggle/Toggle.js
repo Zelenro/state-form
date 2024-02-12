@@ -7,8 +7,8 @@ import { MdOutlineContactPhone } from 'react-icons/md';
 
 const Toggle = ({ onClick }) => {
   const handleClick = e => {
-    e.stopPropagation(); // Предотвращаем всплытие события
-    onClick(); // Вызываем функцию обратного вызова из пропсов
+    e.stopPropagation();
+    onClick();
   };
 
   return (
