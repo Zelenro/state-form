@@ -1,7 +1,6 @@
 import React from 'react';
 // import { Input, Rocker, SwitchLeft, SwitchRight } from './Toggle.styled';
 import './toggle.css';
-import { IoIosContacts } from 'react-icons/io';
 import { SiCoffeescript } from 'react-icons/si';
 import { MdOutlineContactPhone } from 'react-icons/md';
 
