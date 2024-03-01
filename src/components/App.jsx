@@ -1,26 +1,21 @@
-import React, { Component } from "react";
+import React, { Component, useState } from "react";
 import Toggle from "./Toggle/Toggle";
 import Expresso from "./Expresso/Expresso";
 import Contacts from "./Contacts/Contacts";
 import './../index'
 
-class App extends Component {
-state = {
-    toggleSwitcher: true  
-  };
+const App =()=> {
+  const [toggleSwitcher, setToggleSwitcher] = useState(true)
   
-
-  toggleComponent = () => {
-      this.setState(prevState => ({
-      toggleSwitcher: !prevState.toggleSwitcher 
-    }));
+  const toggleComponent = () => {
+      setToggleSwitcher(prevState => !prevState);
   };
 
-  render() {
-    const { toggleSwitcher } = this.state;   
+  
+   
     return (
       <>
-        <Toggle  onClick={this.toggleComponent } />
+        <Toggle  onClick={toggleComponent } />
         <div className="wrapper">
           {
           toggleSwitcher ? <Expresso /> : <Contacts />
@@ -29,7 +24,7 @@ state = {
         </div>
     </>)
   
-  }
+  
 }
 
 export default App

@@ -1,52 +1,97 @@
-import React, { Component } from 'react';
+import React, { useEffect, useState } from 'react';
 import Section from './Section/Section';
 import { StyledDiv } from './Expresso.styled';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
-class Expresso extends Component {
-  state = {
-    good: 0,
-    neutral: 0,
-    bad: 0,
-  };
+const Expresso = () => {
+  const [good, setGood] = useState(0);
+  const [neutral, setNeutral] = useState(0);
+  const [bad, setBad] = useState(0);
 
-  handlerGood = () => {
-    this.setState({ good: this.state.good + 1 });
-  };
-  handlerNeutral = () => {
-    this.setState({ neutral: this.state.neutral + 1 });
-  };
-  handlerBad = () => {
-    this.setState({ bad: this.state.bad + 1 });
+  const resetFeedBack = () => {
+    setBad(0);
+    setGood(0);
+    setNeutral(0);
+    toast('Feedback reset!');
   };
 
-  countTotalFeedback = () => {
-    return this.state.bad + this.state.good + this.state.neutral;
+  useEffect(() => {
+    if (localStorage.feedback) {
+      const localState = JSON.parse(localStorage.getItem('feedback'));
+      console.log(localState);
+      const { good, bad, neutral } = localState;
+      setBad(bad);
+      setGood(good);
+      setNeutral(neutral);
+    }
+    return;
+  }, []);
+
+  const updateLocalStorage = ({
+    newGoodState = good,
+    newBadState = bad,
+    newNeutralState = neutral,
+  }) => {
+    const feedback = {
+      good: newGoodState,
+      bad: newBadState,
+      neutral: newNeutralState,
+    };
+    localStorage.setItem('feedback', JSON.stringify(feedback));
   };
 
-  countPositiveFeedbackPercentage = () => {
-    const total = this.countTotalFeedback();
-    return total > 0 ? Math.round((this.state.good / total) * 100) : 0;
+  const handlerGood = () => {
+    setGood(prevState => {
+      const newGoodState = prevState + 1;
+      updateLocalStorage({ newGoodState });
+      return newGoodState;
+    });
   };
 
-  render() {
-    return (
-      <>
-        <StyledDiv>
-          <Section
-            title="Expresso"
-            handlerGood={this.handlerGood}
-            handlerNeutral={this.handlerNeutral}
-            handlerBad={this.handlerBad}
-            good={this.state.good}
-            neutral={this.state.neutral}
-            bad={this.state.bad}
-            total={this.countTotalFeedback()}
-            positivePercentage={this.countPositiveFeedbackPercentage()}
-          />
-        </StyledDiv>
-      </>
-    );
-  }
-}
+  const handlerNeutral = () => {
+    setNeutral(prevState => {
+      const newNeutralState = prevState + 1;
+      updateLocalStorage({ newNeutralState });
+      return newNeutralState;
+    });
+  };
+  const handlerBad = () => {
+    setBad(prevState => {
+      const newBadState = prevState + 1;
+      updateLocalStorage({ newBadState });
+      return newBadState;
+    });
+  };
+
+  const countTotalFeedback = () => {
+    return bad + good + neutral;
+  };
+
+  const countPositiveFeedbackPercentage = () => {
+    const total = countTotalFeedback();
+    return total > 0 ? Math.round((good / total) * 100) : 0;
+  };
+
+  return (
+    <>
+      <StyledDiv>
+        <Section
+          title="Expresso"
+          handlerGood={handlerGood}
+          handlerNeutral={handlerNeutral}
+          handlerBad={handlerBad}
+          good={good}
+          neutral={neutral}
+          bad={bad}
+          total={countTotalFeedback()}
+          positivePercentage={countPositiveFeedbackPercentage()}
+          resetFeedBack={resetFeedBack}
+        />
+      </StyledDiv>
+      <ToastContainer />
+    </>
+  );
+};
 
 export default Expresso;
