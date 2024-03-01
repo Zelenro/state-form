@@ -1,95 +1,114 @@
-import React, { Component } from 'react';
+import React, { useEffect, useState } from 'react';
 import { nanoid } from 'nanoid';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 import ContactForm from './ContactForm/ContactForm';
 import Phonebook from './Phonebook/Phonebook';
 import Filter from './Filter/Filter';
 
-class Contacts extends Component {
-  state = {
-    contacts: [
-      { id: 'id-1', name: 'Rosie Simpson', number: '459-12-56' },
-      { id: 'id-2', name: 'Hermione Kline', number: '443-89-12' },
-      { id: 'id-3', name: 'Eden Clements', number: '645-17-79' },
-      { id: 'id-4', name: 'Annie Copeland', number: '227-91-26' },
-    ],
-    filter: '',
-  };
+const Contacts = () => {
+  const [contacts, setContacts] = useState([]);
+  const [filter, setFilter] = useState('');
 
-  handlerInput = e => {
-    const { name, value } = e.currentTarget;
-    this.setState(prevState => ({
-      ...prevState,
-      [name]: value,
-    }));
+  useEffect(() => {
+    toast('Phonebook already!', {
+      position: 'top-right',
+      autoClose: 5000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: 'colored',
+    });
+    const itemLocal = localStorage.getItem('contacts');
+
+    const contactsLocal = JSON.parse(itemLocal);
+    if (contactsLocal !== null) {
+      return setContacts(contactsLocal);
+    }
+  }, []);
+
+  useEffect(() => {
+    if (contacts.length > 0) {
+      localStorage.setItem('contacts', JSON.stringify(contacts));
+    }
+  }, [contacts]);
+
+  const handlerInput = e => {
+    const { value } = e.currentTarget;
+    setFilter(value);
     return value;
   };
 
-  addContacts = (name, number) => {
+  const addContacts = (name, number) => {
     const newContact = {
       id: nanoid(),
       name: name,
       number: number,
     };
-    this.setState(prevState => ({
-      contacts: [...prevState.contacts, newContact],
-    }));
+    setContacts(prevState => [...prevState, newContact]);
   };
 
-  filteringContactsBeforeAdding = name => {
+  const filteringContactsBeforeAdding = name => {
+    if (!Array.isArray(contacts)) {
+      return [];
+    }
     const escapedValue = name.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
     const regex = new RegExp(`\\b${escapedValue}\\b`, 'i');
-    return this.state.contacts.filter(contact => regex.test(contact.name));
+    return contacts.filter(contact => regex.test(contact.name));
   };
 
-  searchForContacts = name => {
+  const searchForContacts = name => {
+    if (!Array.isArray(contacts)) {
+      console.error('contacts is not an array');
+      return [];
+    }
     const escapedValue = name.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
     const regex = new RegExp(`\\b${escapedValue}`, 'i');
-    return this.state.contacts.filter(contact => regex.test(contact.name));
+    const result = contacts.filter(contact => regex.test(contact.name));
+    return result;
   };
 
-  filterContacts = e => {
-    const name = this.handlerInput(e);
-    const arrayFilterContact = this.searchForContacts(name);
+  const filterContacts = e => {
+    const name = handlerInput(e);
+    const arrayFilterContact = searchForContacts(name);
     if (arrayFilterContact.length > 1) {
       return;
     }
     return arrayFilterContact;
   };
 
-  deleteContact = e => {
+  const deleteContact = e => {
     const contactId = e.currentTarget.value;
-    this.setState(prevState => ({
-      contacts: prevState.contacts.filter(contact => contact.id !== contactId),
-    }));
+    setContacts(contacts.filter(contact => contact.id !== contactId));
   };
 
-  handlerSubmit = (value, { resetForm }) => {
+  const handlerSubmit = (value, { resetForm }) => {
     const { name, number } = value;
-    const findContact = this.filteringContactsBeforeAdding(name);
+    const findContact = filteringContactsBeforeAdding(name);
     if (findContact.length > 0) {
       alert(`${findContact[0].name} is already in contacts`);
       return;
     }
-    this.addContacts(name, number);
+    addContacts(name, number);
     resetForm();
   };
 
-  render() {
-    // console.log(`Re render ${Date.now()}`);
-    return (
-      <>
-        <h1>Phonebook</h1>
-        <ContactForm handlerSubmit={this.handlerSubmit} />
-        <Filter state={this.state} filterContacts={this.filterContacts} />
-        <Phonebook
-          state={this.state}
-          arrayFilterContact={this.searchForContacts(this.state.filter)}
-          deleteContact={this.deleteContact}
-        />
-      </>
-    );
-  }
-}
+  return (
+    <>
+      <h1>Phonebook</h1>
+      <ContactForm handlerSubmit={handlerSubmit} />
+      <Filter filter={filter} filterContacts={filterContacts} />
+      <Phonebook
+        contacts={contacts}
+        arrayFilterContact={searchForContacts(filter)}
+        deleteContact={deleteContact}
+      />
+      <ToastContainer />
+    </>
+  );
+};
 
 export default Contacts;

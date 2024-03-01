@@ -1,7 +1,7 @@
 import React from 'react';
 import { ContactsList } from '../Phonebook/Phonebook.styled';
 
-const Filter = ({ state: { filter }, filterContacts }) => {
+const Filter = ({ filter, filterContacts }) => {
   return (
     <ContactsList>
       <h3>Filter</h3>

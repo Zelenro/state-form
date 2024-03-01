@@ -1,11 +1,11 @@
-import React, { Component, useState } from "react";
+import React, { useState } from "react";
 import Toggle from "./Toggle/Toggle";
 import Expresso from "./Expresso/Expresso";
 import Contacts from "./Contacts/Contacts";
 import './../index'
 
 const App =()=> {
-  const [toggleSwitcher, setToggleSwitcher] = useState(true)
+  const [toggleSwitcher, setToggleSwitcher] = useState(false)
   
   const toggleComponent = () => {
       setToggleSwitcher(prevState => !prevState);

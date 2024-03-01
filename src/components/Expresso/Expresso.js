@@ -17,9 +17,19 @@ const Expresso = () => {
   };
 
   useEffect(() => {
+    toast('Expresso already!', {
+      position: 'top-right',
+      autoClose: 5000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: 'colored',
+    });
+
     if (localStorage.feedback) {
       const localState = JSON.parse(localStorage.getItem('feedback'));
-      console.log(localState);
       const { good, bad, neutral } = localState;
       setBad(bad);
       setGood(good);

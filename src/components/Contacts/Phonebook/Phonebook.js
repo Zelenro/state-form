@@ -6,15 +6,7 @@ import {
   FormButton,
 } from './Phonebook.styled';
 
-const Phonebook = ({
-  state: {
-    contacts,
-    // filter
-  },
-  deleteContact,
-  // filterContacts,
-  arrayFilterContact,
-}) => {
+const Phonebook = ({ contacts, deleteContact, arrayFilterContact }) => {
   return (
     <ContactsList>
       <h3>My contacts</h3>
